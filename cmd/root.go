@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"regexp"
 	"strconv"
 	"strings"
 
@@ -27,34 +26,28 @@ var rootCmd = &cobra.Command{
 semantic versioning rules.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Check whether we need to bump or not
-		status, err := exec.Command("git", "tag", "--contains", "HEAD").Output()
+		status, err := exec.Command("git", "tag", "--contains", "HEAD", "--list", "v*.*.*").Output()
 		if err != nil {
 			color.Danger.Println("Couldn't get the status (Git Tags) at HEAD")
 			color.Info.Prompt(err.Error())
 			os.Exit(1)
 		}
-		versionMatched, _ := regexp.Match("v([0-9]+).([0-9]+).([0-9]+)", status)
-		if versionMatched {
+		versionMatched := strings.Trim(string(status), "\n")
+		if versionMatched != "" {
 			color.Warn.Prompt("You don't need to bump the version")
 			color.Info.Println(strings.Trim(string(status), "\n"))
 			os.Exit(1)
 		}
 
 		// Get the tags that match semantic versioning
-		out, err := exec.Command("git", "tag").Output()
+		tags, err := exec.Command("git", "tag", "--list", "v*.*.*", "--sort=-v:refname").Output()
 		if err != nil {
 			color.Danger.Println("Couldn't get the Git Tags to bump the version")
 			color.Info.Prompt(err.Error())
 			os.Exit(1)
 		}
-		tags := strings.Split(strings.Trim(string(out), "\n"), "\n")
-		var versions []string
-		for _, v := range tags {
-			matched, _ := regexp.Match("v([0-9]+).([0-9]+).([0-9]+)", []byte(v))
-			if matched {
-				versions = append(versions, v)
-			}
-		}
+		versions := strings.Split(strings.Trim(string(tags), "\n"), "\n")
+
 		// Initiate the first version if it is not exists
 		if len(versions) == 0 {
 			if err := exec.Command("git", "tag", "v0.1.0").Run(); err != nil {
@@ -69,11 +62,11 @@ semantic versioning rules.`,
 		}
 
 		// Calculate the current and the next versions
-		latestVersion := versions[len(versions)-1]
-		version := strings.Split(latestVersion, ".")
-		major, _ := strconv.Atoi(strings.Split(version[0], "")[1])
-		minor, _ := strconv.Atoi(version[1])
-		patch, _ := strconv.Atoi(version[2])
+		latestVersion := versions[0]
+		currentVersion := strings.Split(latestVersion, ".")
+		major, _ := strconv.Atoi(strings.Split(currentVersion[0], "")[1])
+		minor, _ := strconv.Atoi(currentVersion[1])
+		patch, _ := strconv.Atoi(currentVersion[2])
 		nextMajor := fmt.Sprintf("v%d.%d.%d", major+1, 0, 0)
 		nextMinor := fmt.Sprintf("v%d.%d.%d", major, minor+1, 0)
 		nextPatch := fmt.Sprintf("v%d.%d.%d", major, minor, patch+1)
