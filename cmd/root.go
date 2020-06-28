@@ -46,10 +46,9 @@ semantic versioning rules.`,
 			color.Info.Prompt(err.Error())
 			os.Exit(1)
 		}
-		versions := strings.Split(strings.Trim(string(tags), "\n"), "\n")
 
 		// Initiate the first version if it is not exists
-		if len(versions) == 0 {
+		if len(tags) == 0 {
 			if err := exec.Command("git", "tag", "v0.1.0").Run(); err != nil {
 				color.Danger.Println("Couldn't get the Git Tags to bump the version")
 				color.Info.Prompt(err.Error())
@@ -62,7 +61,7 @@ semantic versioning rules.`,
 		}
 
 		// Calculate the current and the next versions
-		latestVersion := versions[0]
+		latestVersion := strings.Split(strings.Trim(string(tags), "\n"), "\n")[0]
 		currentVersion := strings.Split(latestVersion, ".")
 		major, _ := strconv.Atoi(strings.Split(currentVersion[0], "")[1])
 		minor, _ := strconv.Atoi(currentVersion[1])
