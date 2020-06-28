@@ -2,11 +2,11 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 	"os/exec"
 	"strconv"
 	"strings"
 
+	"github.com/erdaltsksn/cui"
 	"github.com/gookit/color"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
@@ -28,36 +28,26 @@ semantic versioning rules.`,
 		// Check whether we need to bump or not
 		status, err := exec.Command("git", "tag", "--contains", "HEAD", "--list", "v*.*.*").Output()
 		if err != nil {
-			color.Danger.Println("Couldn't get the status (Git Tags) at HEAD")
-			color.Info.Prompt(err.Error())
-			os.Exit(1)
+			cui.Error("Couldn't get the status (Git Tags) at HEAD", err)
 		}
 		versionMatched := strings.Trim(string(status), "\n")
 		if versionMatched != "" {
-			color.Warn.Prompt("You don't need to bump the version")
-			color.Info.Println(strings.Trim(string(status), "\n"))
-			os.Exit(1)
+			cui.Warning("You don't need to bump the version", versionMatched)
 		}
 
 		// Get the tags that match semantic versioning
 		tags, err := exec.Command("git", "tag", "--list", "v*.*.*", "--sort=-v:refname").Output()
 		if err != nil {
-			color.Danger.Println("Couldn't get the Git Tags to bump the version")
-			color.Info.Prompt(err.Error())
-			os.Exit(1)
+			cui.Error("Couldn't get the Git Tags to bump the version", err)
 		}
 
 		// Initiate the first version if it is not exists
 		if len(tags) == 0 {
 			if err := exec.Command("git", "tag", "v0.1.0").Run(); err != nil {
-				color.Danger.Println("Couldn't get the Git Tags to bump the version")
-				color.Info.Prompt(err.Error())
-				os.Exit(1)
+				cui.Error("Couldn't get the Git Tags to bump the version", err)
 			}
-			// Success
-			color.Success.Println("The Semantic Version is initiated.")
-			fmt.Println(color.Warn.Sprint("Current Version: "), color.Info.Sprint("v0.1.0"))
-			os.Exit(0)
+
+			cui.Success("The Semantic Version is initiated", "Current Version: v0.1.0")
 		}
 
 		// Calculate the current and the next versions
@@ -98,23 +88,16 @@ semantic versioning rules.`,
 
 		selected, _, err := prompt.Run()
 		if err != nil {
-			color.Danger.Println("Interactive UI failed")
-			color.Info.Prompt(err.Error())
-			os.Exit(1)
+			cui.Error("Interactive UI failed", err)
 		}
 
 		// Bump the version according to selected
 		if err := exec.Command("git", "tag", semvers[selected].Version).Run(); err != nil {
-			color.Danger.Println("Couldn't get the Git Tags to bump the version")
-			color.Info.Prompt(err.Error())
-			os.Exit(1)
+			cui.Error("Couldn't get the Git Tags to bump the version", err)
 		}
 
 		// Success
-		fmt.Println(
-			color.Success.Sprint("The Semantic Version is bumped to"),
-			color.Info.Sprint(semvers[selected].Version),
-		)
+		cui.Success("The Semantic Version is bumped to", semvers[selected].Version)
 	},
 }
 
@@ -122,8 +105,7 @@ semantic versioning rules.`,
 // This is called by main.main(). It only needs to happen once to the rootCmd.
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		cui.Error("Something went wrong", err)
 	}
 }
 
