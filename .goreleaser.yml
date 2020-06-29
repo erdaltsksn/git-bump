@@ -13,12 +13,12 @@ builds:
   - darwin
   - linux
   - windows
-  ldflags: -s -w -X main.version=v{{.Version}}
+  ldflags: -s -w -X github.com/erdaltsksn/cui.appVersion={{.Tag}}
 
 brews:
   - github:
       owner: erdaltsksn
       name: homebrew-tap
     folder: Formula
-    homepage: https://github.com/erdaltsksn/git-bump
+    homepage: "{{ .GitURL }}"
     description: Semantic Version Bumper using git tag
