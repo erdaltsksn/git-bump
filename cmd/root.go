@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/erdaltsksn/cui"
-	"github.com/gookit/color"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
@@ -70,7 +69,7 @@ semantic versioning rules.`,
 				Description: "PATCH version when you make backwards compatible bug fixes."},
 		}
 
-		fmt.Println(color.Warn.Sprint("Current Version: "), color.Info.Sprint(latestVersion))
+		cui.Info("Current Version: " + latestVersion)
 		prompt := promptui.Select{
 			Label: "How do you want to bump it",
 			Items: semvers,
