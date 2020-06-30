@@ -96,7 +96,7 @@ semantic versioning rules.`,
 		}
 
 		// Success
-		cui.Success("The Semantic Version is bumped to", semvers[selected].Version)
+		cui.Success("The Semantic Version is bumped", semvers[selected].Version)
 	},
 }
 
