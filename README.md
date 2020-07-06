@@ -4,13 +4,17 @@
 ![Go](https://github.com/erdaltsksn/git-bump/workflows/Go/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/erdaltsksn/git-bump)](https://goreportcard.com/report/github.com/erdaltsksn/git-bump)
 
-Git-Bump is a Semantic Version Bumper. It uses the semver and git tags to
-defines app versions.
+Git Bump is a Semantic Version Bumper. It uses the semver and git tags to
+define and bump the app version.
 
 ## Features
 
 - Cross-Platform
 - Integrates into Git
+
+## Requirements
+
+- [Git](https://git-scm.com)
 
 ## Getting Started
 
@@ -40,7 +44,7 @@ brew install erdaltsksn/tap/git-bump
 go get github.com/erdaltsksn/git-bump
 ```
 
-## Updating
+## Updating / Upgrading
 
 ### Using Homebrew
 
