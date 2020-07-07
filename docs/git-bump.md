@@ -4,8 +4,8 @@ Bump the app version
 
 ### Synopsis
 
-Bump the app version using git tags. This application follows the
-semantic versioning rules.
+Bump the app version using git tags that follows the semantic
+versioning rules.
 
 ```
 git-bump [flags]

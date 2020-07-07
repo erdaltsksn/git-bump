@@ -18,10 +18,10 @@ define and bump the app version.
 
 ## Getting Started
 
-### 1. Get the package and install the application.
+### 1. Install the application.
 
 ```sh
-go get github.com/erdaltsksn/git-bump
+brew install erdaltsksn/tap/git-bump
 ```
 
 ### 2. Bump the version using the interactive cli-ui.

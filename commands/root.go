@@ -1,4 +1,4 @@
-package cmd
+package commands
 
 import (
 	"fmt"
@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/erdaltsksn/cui"
+	"github.com/gookit/color"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
@@ -17,12 +18,12 @@ type semver struct {
 	Description string
 }
 
-// rootCmd represents the base command when called without any subcommands
+// rootCmd represents the base command when called without any subcommands.
 var rootCmd = &cobra.Command{
 	Use:   "git-bump",
 	Short: "Bump the app version",
-	Long: `Bump the app version using git tags. This application follows the
-semantic versioning rules.`,
+	Long: `Bump the app version using git tags that follows the semantic
+versioning rules.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Check whether we need to bump or not
 		status, err := exec.Command("git", "tag", "--contains", "HEAD", "--list", "v*.*.*").Output()
@@ -34,13 +35,13 @@ semantic versioning rules.`,
 			cui.Warning("You don't need to bump the version", versionMatched)
 		}
 
-		// Get the tags that match semantic versioning
+		// Get all tags that match semantic versioning
 		tags, err := exec.Command("git", "tag", "--list", "v*.*.*", "--sort=-v:refname").Output()
 		if err != nil {
 			cui.Error("Couldn't get the Git Tags to bump the version", err)
 		}
 
-		// Initiate the first version if it is not exists
+		// Initiate the first version if there aren't any release before
 		if len(tags) == 0 {
 			if err := exec.Command("git", "tag", "v0.1.0").Run(); err != nil {
 				cui.Error("Couldn't get the Git Tags to bump the version", err)
@@ -49,15 +50,15 @@ semantic versioning rules.`,
 			cui.Success("The Semantic Version is initiated", "Current Version: v0.1.0")
 		}
 
-		// Calculate the current and the next versions
-		latestVersion := strings.Split(strings.Trim(string(tags), "\n"), "\n")[0]
-		currentVersion := strings.Split(latestVersion, ".")
-		major, _ := strconv.Atoi(strings.Split(currentVersion[0], "")[1])
-		minor, _ := strconv.Atoi(currentVersion[1])
-		patch, _ := strconv.Atoi(currentVersion[2])
-		nextMajor := fmt.Sprintf("v%d.%d.%d", major+1, 0, 0)
-		nextMinor := fmt.Sprintf("v%d.%d.%d", major, minor+1, 0)
-		nextPatch := fmt.Sprintf("v%d.%d.%d", major, minor, patch+1)
+		// Calculate the current and the next version
+		currentVersion := strings.Split(strings.Trim(string(tags), "\n"), "\n")[0]
+		nextVersion := strings.Split(currentVersion, ".")
+		currentMajor, _ := strconv.Atoi(strings.Split(nextVersion[0], "")[1])
+		currentMinor, _ := strconv.Atoi(nextVersion[1])
+		currentPatch, _ := strconv.Atoi(nextVersion[2])
+		nextMajor := fmt.Sprintf("v%d.%d.%d", currentMajor+1, 0, 0)
+		nextMinor := fmt.Sprintf("v%d.%d.%d", currentMajor, currentMinor+1, 0)
+		nextPatch := fmt.Sprintf("v%d.%d.%d", currentMajor, currentMinor, currentPatch+1)
 
 		// Build up CLI UI
 		semvers := []semver{
@@ -69,7 +70,7 @@ semantic versioning rules.`,
 				Description: "PATCH version when you make backwards compatible bug fixes."},
 		}
 
-		cui.Info("Current Version: " + latestVersion)
+		cui.Info("Previous Version: " + currentVersion)
 		prompt := promptui.Select{
 			Label: "How do you want to bump it",
 			Items: semvers,
@@ -89,14 +90,18 @@ semantic versioning rules.`,
 		if err != nil {
 			cui.Error("Interactive UI failed", err)
 		}
+		bumpedVersion := semvers[selected].Version
 
 		// Bump the version according to selected
-		if err := exec.Command("git", "tag", semvers[selected].Version).Run(); err != nil {
+		if err := exec.Command("git", "tag", bumpedVersion).Run(); err != nil {
 			cui.Error("Couldn't get the Git Tags to bump the version", err)
 		}
 
 		// Success
-		cui.Success("The Semantic Version is bumped", semvers[selected].Version)
+		cui.Success(
+			"The Semantic Version is bumped",
+			fmt.Sprintf("Current Version: %s", color.Yellow.Sprint(bumpedVersion)),
+		)
 	},
 }
 
@@ -108,7 +113,7 @@ func Execute() {
 	}
 }
 
-// GetRootCmd returns the instance of root command
+// GetRootCmd returns the instance of root command.
 func GetRootCmd() *cobra.Command {
 	return rootCmd
 }
