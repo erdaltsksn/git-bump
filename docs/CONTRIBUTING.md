@@ -71,9 +71,9 @@ The following is the list of supported scopes:
 Some of the scopes have become old/deprecated. The following is the list and
 their newer equivalents.
 
-| OLD                    | NEW                    |
-|------------------------|------------------------|
-| **(cmd)**              | **(rootCmd)**          |
+| OLD                                  | NEW                                   |
+|--------------------------------------|---------------------------------------|
+| (cmd)                                | **(rootCmd)**                         |
 
 ### Revert and Merge
 
