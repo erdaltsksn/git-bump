@@ -1,6 +1,6 @@
 # Git Bump
 
-[![GoDoc](https://godoc.org/github.com/erdaltsksn/git-bump?status.svg)](https://godoc.org/github.com/erdaltsksn/git-bump)
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/erdaltsksn/git-bump)](https://pkg.go.dev/github.com/erdaltsksn/git-bump)
 ![Go](https://github.com/erdaltsksn/git-bump/workflows/Go/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/erdaltsksn/git-bump)](https://goreportcard.com/report/github.com/erdaltsksn/git-bump)
 
