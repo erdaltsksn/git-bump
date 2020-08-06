@@ -19,5 +19,5 @@ git-bump [flags]
 
 ### SEE ALSO
 
-* [git-bump version](git-bump_version.md)	 - Prints the app's version
+* [git-bump version](git-bump_version.md)	 - Print the app's version
 
