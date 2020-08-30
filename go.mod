@@ -1,6 +1,6 @@
 module github.com/erdaltsksn/git-bump
 
-go 1.13
+go 1.15
 
 require (
 	github.com/erdaltsksn/cui v0.4.0
