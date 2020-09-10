@@ -15,7 +15,7 @@ fmt: ## Run all formatings
 	go fmt ./...
 
 .PHONY: run
-run: ## Run all examples
+run: ## Run the application
 	make fmt
 	go run ./cmd/main.go
 
@@ -24,11 +24,11 @@ test: ## Run all test
 	go test -v ./...
 
 .PHONY: docs
-docs: ## Generate documentation
+docs: ## Generate the documentation
 	go run docs/gen.go
 
 .PHONY: build
-build: ## Build git-bump app
+build: ## Build the app
 	go build -o ./bin/git-bump cmd/main.go
 
 .PHONY: clean
