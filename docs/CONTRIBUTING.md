@@ -64,16 +64,7 @@ The following is the list of supported scopes:
 - **(*)** Multiple scopes or Unknown.
 - **(devops)** e.g. git, travis, pre-commit, netlify, heroku, npm, gulp and etc.
 - **(readme)** e.g. readme, contributing, changelog, license and etc.
-- **(rootCmd)** Anything related to `git bump` command.
-
-#### Old / Deprecated Scopes
-
-Some of the scopes have become old/deprecated. The following is the list and
-their newer equivalents.
-
-| OLD                                  | NEW                                   |
-|--------------------------------------|---------------------------------------|
-| (cmd)                                | **(rootCmd)**                         |
+- **(cmd)** Anything related to `git bump` command.
 
 ### Revert and Merge
 
