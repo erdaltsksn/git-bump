@@ -3,6 +3,7 @@
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/erdaltsksn/git-bump)](https://pkg.go.dev/github.com/erdaltsksn/git-bump)
 ![Go](https://github.com/erdaltsksn/git-bump/workflows/Go/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/erdaltsksn/git-bump)](https://goreportcard.com/report/github.com/erdaltsksn/git-bump)
+![CodeQL](https://github.com/erdaltsksn/git-bump/workflows/CodeQL/badge.svg)
 
 Git Bump is a Semantic Version Bumper. It uses the semver and git tags to
 define and bump the app version.
