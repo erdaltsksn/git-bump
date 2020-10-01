@@ -63,12 +63,16 @@ go get -u github.com/erdaltsksn/git-bump
 You may find the documentation for [each command](docs/git-bump.md) inside the
 [docs](docs) folder.
 
-### Getting Help
+## Getting Help
 
-```sh
+ ```sh
+ # Getting help for related command.
 git bump --help
 git bump [command] --help
-```
+
+ # Show available `make` commands.
+ make help
+ ```
 
 ## Contributing
 
