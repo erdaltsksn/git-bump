@@ -22,7 +22,7 @@ coverage: ## Show test coverage
 
 .PHONY: docs
 docs: ## Generate the documentation
-	go run docs/gen.go
+	go run ./scripts/gen-docs/main.go
 
 .PHONY: godoc
 godoc: ## Start local godoc server
