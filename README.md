@@ -19,13 +19,13 @@ define and bump the app version.
 
 ## Getting Started
 
-### 1. Install the application.
+**1. Install the application.**
 
 ```sh
 brew install erdaltsksn/tap/git-bump
 ```
 
-### 2. Bump the version using the interactive cli-ui.
+**2. Bump the version using the interactive cli-ui.**
 
 ```sh
 git bump
@@ -33,30 +33,14 @@ git bump
 
 ## Installation
 
-### Using Homebrew
-
 ```sh
 brew install erdaltsksn/tap/git-bump
 ```
 
-### Using Go Modules
-
-```sh
-go get github.com/erdaltsksn/git-bump
-```
-
 ## Updating / Upgrading
-
-### Using Homebrew
 
 ```sh
 brew upgrade erdaltsksn/tap/git-bump
-```
-
-### Using Go Modules
-
-```sh
-go get -u github.com/erdaltsksn/git-bump
 ```
 
 ## Usage
@@ -70,10 +54,7 @@ You may find the documentation for [each command](docs/git-bump.md) inside the
  # Getting help for related command.
 git bump --help
 git bump [command] --help
-
- # Show available `make` commands.
- make help
- ```
+```
 
 ## Contributing
 
