@@ -18,8 +18,8 @@ type semver struct {
 	Description string
 }
 
-// rootCmd represents the base command when called without any subcommands.
-var rootCmd = &cobra.Command{
+// RootCmd represents the base command when called without any subcommands.
+var RootCmd = &cobra.Command{
 	Use:   "git-bump",
 	Short: "Bump the app version",
 	Long: `Bump the app version using git tags that follows the semantic
@@ -79,9 +79,7 @@ versioning rules.`,
 				Active:   "> {{ .Name | cyan }} ({{ .Version | red }})",
 				Inactive: "  {{ .Name | faint }} ({{ .Version | faint }})",
 				Selected: "* {{ .Name | cyan }} ({{ .Version | red }})",
-				Details: `
----------- Details ----------
-{{ .Description | faint }}`,
+				Details:  "---------- Details ----------\n{{ .Description | faint }}",
 			},
 			Size: 3,
 		}
@@ -103,21 +101,4 @@ versioning rules.`,
 			fmt.Sprintf("Current Version: %s", color.Yellow.Sprint(bumpedVersion)),
 		)
 	},
-}
-
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	if err := rootCmd.Execute(); err != nil {
-		cui.Error("Something went wrong", err)
-	}
-}
-
-// GetRootCmd returns the instance of root command.
-func GetRootCmd() *cobra.Command {
-	return rootCmd
-}
-
-func init() {
-	rootCmd.AddCommand(cui.VersionCmd)
 }
