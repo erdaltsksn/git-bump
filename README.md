@@ -8,6 +8,8 @@
 Git Bump is a Semantic Version Bumper. It uses the semver and git tags to
 define and bump the app version.
 
+![Screenshot](assets/screenshot.png)
+
 ## Features
 
 - Cross-Platform
