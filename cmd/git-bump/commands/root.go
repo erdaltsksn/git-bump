@@ -2,6 +2,7 @@ package commands
 
 import (
 	"fmt"
+	"os"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -23,6 +24,11 @@ var RootCmd = &cobra.Command{
 	Short: "Bump the app version",
 	Long: `Bump the app version using git tags that follows the semantic
 versioning rules.`,
+	PreRun: func(cmd *cobra.Command, args []string) {
+		if _, err := os.Stat(".git"); os.IsNotExist(err) {
+			cui.Error("Not a Git repository", err)
+		}
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		// Check whether we need to bump or not
 		status, err := exec.Command("git", "tag", "--contains", "HEAD", "--list", "v*.*.*").Output()
