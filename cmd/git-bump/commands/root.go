@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	"github.com/erdaltsksn/cui"
-	"github.com/gookit/color"
 	"github.com/manifoldco/promptui"
 	"github.com/spf13/cobra"
 )
@@ -107,7 +106,7 @@ versioning rules.`,
 		// Success
 		cui.Success(
 			"The Semantic Version is bumped",
-			fmt.Sprintf("Current Version: %s", color.Yellow.Sprint(bumpedVersion)),
+			fmt.Sprintf("Current Version: %s", bumpedVersion),
 		)
 	},
 }
