@@ -62,12 +62,21 @@ versioning rules.`,
 
 		// Build up CLI UI
 		semvers := []semver{
-			{Name: "\U0001F4A5 Major", Version: nextMajor,
-				Description: "MAJOR version when you make incompatible API changes."},
-			{Name: "\U0001f389 Minor", Version: nextMinor,
-				Description: "MINOR version when you add functionality in a backwards compatible manner."},
-			{Name: "\U0001F41B Patch", Version: nextPatch,
-				Description: "PATCH version when you make backwards compatible bug fixes."},
+			{
+				Name:        "\U0001F4A5 Major",
+				Version:     nextMajor,
+				Description: "MAJOR version when you make incompatible API changes.",
+			},
+			{
+				Name:        "\U0001f389 Minor",
+				Version:     nextMinor,
+				Description: "MINOR version when you add functionality in a backwards compatible manner.",
+			},
+			{
+				Name:        "\U0001F41B Patch",
+				Version:     nextPatch,
+				Description: "PATCH version when you make backwards compatible bug fixes.",
+			},
 		}
 
 		cui.Info("Previous Version: " + currentVersion)
