@@ -24,13 +24,6 @@ coverage: ## Show test coverage
 docs: ## Generate the documentation
 	go run ./scripts/gen-docs/main.go
 
-.PHONY: godoc
-godoc: ## Start local godoc server
-	@echo "See Documentation:"
-	@echo "    http://localhost:6060/pkg/github.com/erdaltsksn/git-bump"
-	@echo ""
-	@godoc -http=:6060
-
 .PHONY: clean
 clean: ## Clean all generated files
 	rm -rf ./vendor/
