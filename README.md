@@ -1,7 +1,7 @@
 # Git Bump
 
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/erdaltsksn/git-bump)](https://pkg.go.dev/github.com/erdaltsksn/git-bump)
-![Go](https://github.com/erdaltsksn/git-bump/workflows/Go%20(build)/badge.svg)
+![Go (build)](https://github.com/erdaltsksn/git-bump/workflows/Go%20(build)/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/erdaltsksn/git-bump)](https://goreportcard.com/report/github.com/erdaltsksn/git-bump)
 ![CodeQL](https://github.com/erdaltsksn/git-bump/workflows/CodeQL/badge.svg)
 
