@@ -17,7 +17,8 @@ builds:
   ldflags: -s -w -X github.com/erdaltsksn/cui.appVersion={{.Tag}}
 
 brews:
-  - github:
+  -
+    tap:
       owner: erdaltsksn
       name: homebrew-tap
     folder: Formula
