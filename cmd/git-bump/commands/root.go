@@ -30,8 +30,18 @@ versioning rules.`,
 		}
 	},
 	Run: func(cmd *cobra.Command, args []string) {
+		// Get prefix
+		var versionPrefix string
+		versionPrefixConf, err := exec.Command("git", "config", "--get", "git-bump.prefix").Output()
+		if err != nil {
+			cui.Info("Using default semver prefix")
+			versionPrefix = "v"
+		} else {
+			versionPrefix = strings.Trim(string(versionPrefixConf), "\n")
+		}
+
 		// Check whether we need to bump or not
-		status, err := exec.Command("git", "tag", "--contains", "HEAD", "--list", "v*.*.*").Output()
+		status, err := exec.Command("git", "tag", "--contains", "HEAD", "--list", versionPrefix+"*.*.*").Output()
 		if err != nil {
 			cui.Error("Couldn't get the status (Git Tags) at HEAD", err)
 		}
@@ -41,29 +51,34 @@ versioning rules.`,
 		}
 
 		// Get all tags that match semantic versioning
-		tags, err := exec.Command("git", "tag", "--list", "v*.*.*", "--sort=-v:refname").Output()
+		tags, err := exec.Command("git", "tag", "--list", versionPrefix+"*.*.*", "--sort=-v:refname").Output()
 		if err != nil {
 			cui.Error("Couldn't get the Git Tags to bump the version", err)
 		}
 
 		// Initiate the first version if there aren't any release before
 		if len(tags) == 0 {
-			if err := exec.Command("git", "tag", "v0.1.0").Run(); err != nil {
+			if err := exec.Command("git", "tag", versionPrefix+"0.1.0").Run(); err != nil {
 				cui.Error("Couldn't get the Git Tags to bump the version", err)
 			}
 
-			cui.Success("The Semantic Version is initiated", "Current Version: v0.1.0")
+			cui.Success("The Semantic Version is initiated", fmt.Sprintf("Current Version: %s0.1.0", versionPrefix))
 		}
 
 		// Calculate the current and the next version
 		currentVersion := strings.Split(strings.Trim(string(tags), "\n"), "\n")[0]
 		nextVersion := strings.Split(currentVersion, ".")
-		currentMajor, _ := strconv.Atoi(strings.Split(nextVersion[0], "")[1])
+		var currentMajor int
+		if versionPrefix != "" {
+			currentMajor, _ = strconv.Atoi(strings.Split(nextVersion[0], "")[1])
+		} else {
+			currentMajor, _ = strconv.Atoi(nextVersion[0])
+		}
 		currentMinor, _ := strconv.Atoi(nextVersion[1])
 		currentPatch, _ := strconv.Atoi(nextVersion[2])
-		nextMajor := fmt.Sprintf("v%d.%d.%d", currentMajor+1, 0, 0)
-		nextMinor := fmt.Sprintf("v%d.%d.%d", currentMajor, currentMinor+1, 0)
-		nextPatch := fmt.Sprintf("v%d.%d.%d", currentMajor, currentMinor, currentPatch+1)
+		nextMajor := fmt.Sprintf("%s%d.%d.%d", versionPrefix, currentMajor+1, 0, 0)
+		nextMinor := fmt.Sprintf("%s%d.%d.%d", versionPrefix, currentMajor, currentMinor+1, 0)
+		nextPatch := fmt.Sprintf("%s%d.%d.%d", versionPrefix, currentMajor, currentMinor, currentPatch+1)
 
 		// Build up CLI UI
 		semvers := []semver{

@@ -50,6 +50,17 @@ brew upgrade erdaltsksn/tap/git-bump
 You may find the documentation for [each command](docs/git-bump.md) inside the
 [docs](docs) folder.
 
+### Configurations
+
+**.gitconfig:**
+
+```sh
+[git-bump]
+    prefix = "versao"
+```
+
+You can use `prefix = ""` to omit the prefix.
+
 ## Getting Help
 
  ```sh
